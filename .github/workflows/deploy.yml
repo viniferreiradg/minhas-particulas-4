@@ -1,0 +1,49 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main  # Altere para a branch que você utiliza (por exemplo, 'main' ou 'master')
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest  # Ambiente do runner que irá executar as etapas
+
+    steps:
+      # Passo 1: Checkout do repositório
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Passo 2: Configuração do Node.js
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'  # Defina a versão do Node.js de acordo com o seu projeto
+
+      # Passo 3: Instalar dependências do projeto
+      - name: Install dependencies
+        run: npm install  # Ou use 'yarn install' caso use o Yarn
+
+      # Passo 4: Build do projeto
+      - name: Build project
+        run: |
+          export NODE_OPTIONS=--openssl-legacy-provider  # Evita erro com OpenSSL em algumas versões
+          npm run build  # Ou o comando de build que você usa (por exemplo, 'yarn build')
+
+      # Passo 5: Verificar a pasta de build
+      - name: List files in build directory
+        run: ls -R dist  # Substitua 'dist' pela pasta de saída gerada pelo build, caso necessário
+
+      # Passo 6: Preparar a branch gh-pages
+      - name: Set up gh-pages branch
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+          git checkout -b gh-pages || git checkout gh-pages  # Cria ou entra na branch 'gh-pages'
+
+      # Passo 7: Deploy no GitHub Pages
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages  # Nome da branch onde será feito o deploy
+          folder: dist  # Pasta com os arquivos de build (modifique caso seja outra pasta)
