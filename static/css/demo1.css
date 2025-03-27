@@ -1,0 +1,9 @@
+body {
+	background-color: #222;
+	margin: 0;
+	overflow: hidden;
+}
+
+#controlKit {
+	display: none;
+}
