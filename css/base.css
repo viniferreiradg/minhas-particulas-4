@@ -11,7 +11,9 @@ article,aside,details,figcaption,figure,footer,header,hgroup,main,nav,section,su
 
 body {
 	--color-text: #fff;
-	--color-bg: #0e0e0f;
+	//--color-bg: #0e0e0f;
+	background: rgb(0,0,0);
+	background: linear-gradient(0deg, rgba(0,0,0,0) 0%, rgba(45,41,51,0) 100%);	
 	--color-link: #EE9A00;
 	--color-link-hover: #8e5c00;
 	color: var(--color-text);
